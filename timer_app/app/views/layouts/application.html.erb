@@ -12,14 +12,14 @@
   <body>
     <header>
       <div class="header-logo">
-        <a href="/">TimerApp</a>
+        <%= link_to("TimerApp","/") %>
       </div>
       <ul class="header-menus">
-        <li><a href="/about">TimerAppとは</a></li>
+        <li><%= link_to("TimmerAppとは","/about")%></li>
+        <li><%= link_to("ユーザー一覧","/users/index")%></li>
+        <li><%= link_to("ユーザー登録","/signup")%></li>
       </ul>
     </header>
-
-
     <%= yield %>
   </body>
 </html>

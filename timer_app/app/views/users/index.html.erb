@@ -1,0 +1,14 @@
+<div class="main users-index">
+  <div class="container">
+    <h1 class="users-heading">ユーザー一覧</h1>
+      <% @users.each do |user| %>
+          <div class="user-left">
+            <!-- プロフィール画像を表示予定-->
+          </div>
+          <div class="user-right">
+            <!-- 名前を表示。詳細リンクは後日実装予定-->
+            <%= user.name %>
+          </div>
+      <% end %>
+  </div>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_19_125045) do
+ActiveRecord::Schema.define(version: 2019_11_20_115355) do
 
   create_table "logs", force: :cascade do |t|
     t.integer "user_id"
@@ -18,6 +18,14 @@ ActiveRecord::Schema.define(version: 2019_11_19_125045) do
     t.datetime "start_time"
     t.datetime "end_time"
     t.text "menu"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.string "password_digest"
+    t.datetime "login_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
