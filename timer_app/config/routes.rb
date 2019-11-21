@@ -10,9 +10,11 @@ Rails.application.routes.draw do
 
 
   #####userコントローラ
+  get 'signup'      => 'users#new'      #ユーザー登録画面の表示
   get 'users/index' => 'users#index'    #ユーザー一覧の表示
   post 'users/create' => 'users#create'  #ユーザー登録アクション
-  get 'signup'      => 'users#new'      #ユーザー登録画面の表示
+  get 'users/:id' => 'users#show'       #ユーザー詳細情報画面の表示
+  get 'users/:id/edit' => 'users#edit'
 
   #####postコントローラ
   #詳細画面
