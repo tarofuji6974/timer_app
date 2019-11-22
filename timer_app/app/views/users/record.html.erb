@@ -1,6 +1,6 @@
 <div class="main users-edit">
   <div class="container">
-    <div class="form-heading">ユーザー情報の編集</div>
+    <div class="form-heading">学習の記録</div>
     <div class="form users-form">
       <div class="form-body">
         <!--エラーメッセージの表示-->
@@ -10,13 +10,8 @@
           </div>
         <% end %>
 
-        <%= form_tag("/users/#{@user.id}/update",{multipart: true}) do %>
-          <p>ユーザー名</p>
-          <input name="name" value="<%= @user.name %>">
-          <p>画像</p>
-          <input name="image" type="file">
-          <p>パスワード</p>
-          <input name="password_digest" type="password" value="<%= @user.password_digest %>">
+        <%= form_tag("/users/#{@user.id}/record_create",{multipart: true}) do %>
+          <!--項目は後日実装予定-->
           <input type="submit" value="保存">
         <% end %>
       </div>

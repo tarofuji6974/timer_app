@@ -3,6 +3,12 @@
     <div class="user">
       <h2><%= @user.name %></h2>
           <%= link_to("編集", "/users/#{@user.id}/edit") %>
+          <%= link_to("学習を記録する","/users/#{@user.id}/record") %>
     </div>
+    <% @logs.each do |log| %>
+          <div class="user-log-left">
+            <%= log.start_time %>
+          </div>
+    <% end %>
   </div>
 </div>

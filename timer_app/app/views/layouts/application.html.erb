@@ -20,6 +20,12 @@
         <li><%= link_to("ユーザー登録","/signup")%></li>
       </ul>
     </header>
+    <!--Flashメッセージがあれば表示させる-->
+    <% if flash[:notice] %>
+      <div class="flash">
+        <%= flash[:notice] %>
+      </div>
+    <% end %>
     <%= yield %>
   </body>
 </html>
