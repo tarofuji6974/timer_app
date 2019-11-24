@@ -10,13 +10,14 @@
           </div>
         <% end %>
 
-        <%= form_tag("/users/#{@user.id}/record_create",{multipart: true}) do %>
+        <%= form_tag("/users/#{@logs.id}/record_update",{multipart: true}) do %>
           <p>開始日時</p>
-          <% %>
-          <input name="start_time" value="<%= @nowTime.strftime("%Y-%m-%d %H:%M:%S") %>" readonly>
+          <input name="start_time" value="<%= @logs.start_time %>" readonly>
+          <p>終了日時</p>
+          <input name="end_time" value="<%= @logs.end_time %>">
           <p>学習内容</p>
           <textarea name="menu"><%= @logs.menu %></textarea>
-          <input type="submit" value="保存">
+          <input type="submit" value="更新">
         <% end %>
       </div>
     </div>

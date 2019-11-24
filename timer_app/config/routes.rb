@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   get 'users/:id/edit' => 'users#edit'  #ユーザー編集画面の表示
   post 'users/:id/update' => 'users#update' #ユーザー編集アクション
   get 'users/:id/record' => 'users#record'  #学習記録画面の表示
+  post 'users/:id/record_create' => "users#record_create" #学習記録アクション
+  get 'users/:id/record_edit' => "users#record_edit"  #学習記録更新画面の表示
 
   #####postコントローラ
   #詳細画面

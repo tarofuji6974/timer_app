@@ -6,8 +6,10 @@
           <%= link_to("学習を記録する","/users/#{@user.id}/record") %>
     </div>
     <% @logs.each do |log| %>
-          <div class="user-log-left">
+          <div class="log">
             <%= log.start_time %>
+            <!--要修正-->
+            <%= link_to("記録更新","/users/#{@user.id}/record_edit") %>
           </div>
     <% end %>
   </div>

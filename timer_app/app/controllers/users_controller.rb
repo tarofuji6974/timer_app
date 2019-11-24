@@ -66,7 +66,43 @@ class UsersController < ApplicationController
   end
 
   def record
+    require 'date'
+    #ユーザー情報を取得
     @user = User.find_by(id:params[:id])
+
+    #現在日時を取得
+    @nowTime = DateTime.now
+
+    @logs = Log.new
+  end
+
+  def record_create
+    #require 'date'
+    #ユーザーIDを取得
+    @user = User.find_by(id:params[:id])
+
+    #記録作成
+    @logs = Log.new(
+      user_id: @user.id,
+      user_name: @user.name,
+      start_time: params[:start_time],
+      menu: params[:menu]
+    )
+
+    #記録保存処理
+    if @logs.save
+      flash[:notice] = "学習を記録しました(開始)"
+
+      #ユーザーページに戻る
+      redirect_to("/users/#{@user.id}")
+    else
+      #失敗時のアクション
+      render("/users/record")
+    end
+  end
+
+  def record_edit
+    @logs = Log.find_by(id:params[:id])
   end
 
 end
