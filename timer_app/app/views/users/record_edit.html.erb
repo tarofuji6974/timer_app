@@ -1,6 +1,6 @@
 <div class="main users-edit">
   <div class="container">
-    <div class="form-heading">学習の記録</div>
+    <div class="form-heading">学習時間の編集</div>
     <div class="form users-form">
       <div class="form-body">
         <!--エラーメッセージの表示-->
@@ -9,16 +9,19 @@
             <%= message %>
           </div>
         <% end %>
-
-        <%= form_tag("/users/#{@logs.id}/record_update",{multipart: true}) do %>
-          <p>開始日時</p>
-          <input name="start_time" value="<%= @logs.start_time %>" readonly>
-          <p>終了日時</p>
-          <input name="end_time" value="<%= @logs.end_time %>">
-          <p>学習内容</p>
-          <textarea name="menu"><%= @logs.menu %></textarea>
-          <input type="submit" value="更新">
-        <% end %>
+        <!--編集フォーム-->
+        <div class = "form_conf">
+          <%= form_tag("/users/#{@logs.id}/record_update",{multipart: true}) do %>
+            <p>開始日時</p>
+            <input name="start_time" value="<%= @logs.start_time.strftime("%Y-%m-%d %H:%M:%S") %>" readonly>
+            <p>終了日時</p>
+            <!--日時のフォーマットは指定させる必要がある-->
+            <input name="end_time" value="<%= @logs.end_time.strftime("%Y-%m-%d %H:%M:%S") %>">
+            <p>学習内容</p>
+            <textarea name="menu"><%= @logs.menu %></textarea>
+            <input type="submit" value="更新">
+          <% end %>
+      </div>
       </div>
     </div>
   </div>

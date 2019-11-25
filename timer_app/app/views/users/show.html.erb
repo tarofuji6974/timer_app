@@ -8,8 +8,8 @@
     <% @logs.each do |log| %>
           <div class="log">
             <%= log.start_time %>
-            <!--要修正-->
-            <%= link_to("記録更新","/users/#{@user.id}/record_edit") %>
+            <%= link_to("記録更新","/users/#{log.id}/record_edit") %>
+            <%= link_to("削除","/users/#{log.id}/record_destroy",{method:"post",data: { confirm: "削除しますか？" }}) %>
           </div>
     <% end %>
   </div>

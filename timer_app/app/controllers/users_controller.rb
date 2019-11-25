@@ -105,4 +105,31 @@ class UsersController < ApplicationController
     @logs = Log.find_by(id:params[:id])
   end
 
+  def record_update
+
+    @logs = Log.find_by(id:params[:id])
+    @logs.end_time = params[:end_time]
+    @logs.menu = params[:menu]
+
+    #学習記録更新処理
+    if @logs.save
+      flash[:notice] = "学習を記録しました(終了)"
+
+      #ユーザーページに戻る
+      redirect_to("/users/#{@logs.user_id}")
+    else
+      #失敗時のアクション
+      render("/users/record_edit")
+    end
+  end
+
+  def record_destroy
+    @logs = Log.find_by(id:params[:id])
+    @id = @logs.user_id
+    #学習記録を削除
+    @logs.destroy
+
+    flash[:notice] = "記録を削除しました"
+    redirect_to("/users/#{@id}")
+  end
 end
