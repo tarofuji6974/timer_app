@@ -1,6 +1,11 @@
 <div class="main users-edit">
   <div class="container">
     <div class="form-heading">学習時間の編集</div>
+    <% if @logs.end_time != nil %>
+      <p>学習時間: <%= @df %></p>
+    <% else %>
+      <p>学習時間:記録中</p>
+    <% end %>
     <div class="form users-form">
       <div class="form-body">
         <!--エラーメッセージの表示-->
@@ -16,7 +21,11 @@
             <input name="start_time" value="<%= @logs.start_time.strftime("%Y-%m-%d %H:%M:%S") %>" readonly>
             <p>終了日時</p>
             <!--日時のフォーマットは指定させる必要がある-->
-            <input name="end_time" value="<%= @logs.end_time.strftime("%Y-%m-%d %H:%M:%S") %>">
+            <% if @logs.end_time != nil %>
+              <input name="end_time" value="<%= @logs.end_time.strftime("%Y-%m-%d %H:%M:%S") %>">
+            <% else %>
+              <input name="end_time">
+            <% end %>
             <p>学習内容</p>
             <textarea name="menu"><%= @logs.menu %></textarea>
             <input type="submit" value="更新">

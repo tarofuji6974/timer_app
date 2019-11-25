@@ -14,8 +14,18 @@ class UsersController < ApplicationController
     @user = User.new(
       name: params[:name],
       password_digest: params[:password_digest],
-      image_name: "default_user.png"
+      image_name: "default_user_image.png"
     )
+
+    @repassword = params[:repassword]
+
+    #パスワードチェック
+    unless @user.password_digest == @repassword
+      #パスワードが一致しなかった場合、リターンする
+      flash[:notice] = "パスワードが一致しませんでした"
+      render("/users/new")
+      return
+    end
 
     if @user.save
       flash[:notice] = "ユーザー登録が完了しました"
@@ -77,7 +87,7 @@ class UsersController < ApplicationController
   end
 
   def record_create
-    #require 'date'
+    require 'date'
     #ユーザーIDを取得
     @user = User.find_by(id:params[:id])
 
@@ -85,7 +95,8 @@ class UsersController < ApplicationController
     @logs = Log.new(
       user_id: @user.id,
       user_name: @user.name,
-      start_time: params[:start_time],
+      #start_time: params[:start_time],
+      start_time: DateTime.now,
       menu: params[:menu]
     )
 
@@ -102,12 +113,21 @@ class UsersController < ApplicationController
   end
 
   def record_edit
+    #学習記録情報を取得
     @logs = Log.find_by(id:params[:id])
+
+    @end_time = @logs.end_time
+
+    if @end_time != nil
+      @df = time_diff(@logs.start_time,@logs.end_time)
+    end
   end
 
   def record_update
 
+
     @logs = Log.find_by(id:params[:id])
+
     @logs.end_time = params[:end_time]
     @logs.menu = params[:menu]
 
@@ -131,5 +151,20 @@ class UsersController < ApplicationController
 
     flash[:notice] = "記録を削除しました"
     redirect_to("/users/#{@id}")
+  end
+
+  #学習時間の計算処理
+  def time_diff(start_time,end_time)
+    seconds_diff = (start_time - end_time).to_i.abs
+
+    hours = seconds_diff / 3600
+    seconds_diff -= hours * 3600
+
+    minutes = seconds_diff / 60
+    seconds_diff -= minutes * 60
+
+    seconds = seconds_diff
+
+    "#{hours.to_s.rjust(2, '0')}:#{minutes.to_s.rjust(2, '0')}:#{seconds.to_s.rjust(2, '0')}"
   end
 end
