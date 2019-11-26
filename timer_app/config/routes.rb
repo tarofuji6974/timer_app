@@ -20,6 +20,9 @@ Rails.application.routes.draw do
   get 'users/:id/record_edit' => 'users#record_edit'  #学習記録更新画面の表示
   post 'users/:id/record_update' => 'users#record_update'  #学習記録更新アクション
   post 'users/:id/record_destroy' => 'users#record_destroy' #学習記録削除処理
+  get 'login' => 'users#login_form' #ログイン画面の表示
+  post 'login' => 'users#login' #ログインアクション
+  post 'logout' => 'users#logout' #ログアウトアクション
 
   #####postコントローラ
   #詳細画面

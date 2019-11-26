@@ -167,4 +167,40 @@ class UsersController < ApplicationController
 
     "#{hours.to_s.rjust(2, '0')}:#{minutes.to_s.rjust(2, '0')}:#{seconds.to_s.rjust(2, '0')}"
   end
+
+  def login_form
+
+  end
+
+  def login
+        #ユーザー名とパスワードが一致する情報を取得
+    @user = User.find_by(
+      name: params[:name],
+      password_digest: params[:password_digest]
+      )
+
+    if @user
+      #入力結果が一致した場合の処理
+      #セッション情報を保持する
+      session[:user_id] = @user.id
+      flash[:notice] = "ログインしました"
+
+      #ユーザー個別のページへリダイレクト
+      redirect_to("/users/#{@user.id}")
+    else
+      #ログインできなかった場合の処理
+      #renderで返す設定を行う
+      @error_message = "メールアドレスまたはパスワードが間違っています"
+      @name = params[:name]
+      @password_digest = params[:password_digest]
+
+      render("users/login_form")
+    end
+  end
+
+  def logout
+    session[:user_id] = nil
+    flash[:notice] = "ログアウトしました"
+    redirect_to("/login")
+  end
 end
