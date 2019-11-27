@@ -108,6 +108,7 @@ class UsersController < ApplicationController
       redirect_to("/users/#{@user.id}")
     else
       #失敗時のアクション
+      @nowTime = DateTime.now
       render("/users/record")
     end
   end
@@ -125,11 +126,15 @@ class UsersController < ApplicationController
 
   def record_update
 
-
     @logs = Log.find_by(id:params[:id])
 
     @logs.end_time = params[:end_time]
     @logs.menu = params[:menu]
+
+    if !start_end_check?(params[:start_time],params[:end_time])
+      render("/users/record_edit")
+      return
+    end
 
     #学習記録更新処理
     if @logs.save
@@ -141,6 +146,43 @@ class UsersController < ApplicationController
       #失敗時のアクション
       render("/users/record_edit")
     end
+  end
+
+    #開始日時 < 終了日時にならないようチェック
+  def start_end_check?(start_time,end_time)
+    require 'date'
+
+    #終了時間のnilチェック
+    if end_time == nil
+      flash[:notice] = "終了時間が未入力です"
+      return false
+    end
+
+    if !date_valid?(end_time)
+      flash[:notice] = "終了日時を正しく入力してください(例:yyyy/mm/dd hh:mm:ss)"
+      return false
+    end
+
+    @start_time = DateTime.parse(start_time)
+    @end_time = DateTime.parse(end_time)
+
+    #errors.add(:終了日時, "を正しく入力してください。") unless
+    unless @start_time < @end_time
+      flash[:notice] = "終了時間 > 開始時間は入力できません"
+      return false
+    end
+
+    return true
+  end
+
+  def date_valid?(str)
+    #日付が正しく変換できるか。できない場合はfalseを返す
+    !! DateTime.parse(str) rescue false
+  end
+
+  def view
+    #学習記録情報を取得
+    @logs = Log.find_by(id:params[:id])
   end
 
   def record_destroy
@@ -199,6 +241,7 @@ class UsersController < ApplicationController
   end
 
   def logout
+    #ログアウト実行時、セッションを切りログイン画面にリダイレクトする
     session[:user_id] = nil
     flash[:notice] = "ログアウトしました"
     redirect_to("/login")
